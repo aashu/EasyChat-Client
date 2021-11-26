@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import io from 'socket.io-client';
+
 export default {
   name: 'EasyChatApp',
   data() {
@@ -36,6 +38,13 @@ export default {
   methods: {
     join() {
       this.joined = true;
+      this.socketInstance = io('http://localhost:3000');
+
+      this.socketInstance.on(
+        'message:received', (msg) => {
+          this.messages = this.messages.concat(msg);
+        },
+      );
     },
     sendMessage() {
       this.addMessage();
@@ -48,6 +57,7 @@ export default {
         text: this.text,
       };
       this.messages = this.messages.concat(message);
+      this.socketInstance.emit('message', message);
     },
   },
 };
