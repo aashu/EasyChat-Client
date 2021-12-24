@@ -5,7 +5,7 @@
         <button class="join-button" @click.prevent="join">Join</button>
       </div>
     </div>
-    <div v-if ="joined">
+    <div v-else>
       <div class="list-container">
         <div v-for="message in messages" :key="message.id">
           <strong> {{message.user}} </strong>
@@ -91,10 +91,11 @@ export default {
 }
 .text-input-container {
   height: 100vh;
+  display: flex;
 }
 .text-message {
-  width: 100%;
   position: absolute;
+  width: 95%;
   bottom: 0px;
   height: 70px;
   padding: 10px;
