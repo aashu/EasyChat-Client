@@ -1,4 +1,6 @@
-# easychat
+# EasyChat Client
+Client Application for EasyChat.
+#### Follow Instructions on [EasyChat Server Repostiory](https://github.com/aashu/easychat-server) for setting up server.
 
 ## Project setup
 ```
@@ -14,11 +16,3 @@ yarn serve
 ```
 yarn build
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
