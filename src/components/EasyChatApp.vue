@@ -1,32 +1,43 @@
 <template>
+    <n-h1 class="header">EasyChat</n-h1>
     <div v-if="!joined" class="parent-container">
       <div class="name-container">
-        <input type="text" class="user-name" v-model="username"/>
-        <button class="join-button" @click.prevent="join">Join</button>
+        <n-input type="text" size="large" v-model:value="username" placeholder="Enter Username">
+          <template #prefix>
+            <n-icon size="32">
+              <AccountBoxTwotone/>
+            </n-icon>
+          </template>
+          </n-input>
+        <n-button type="primary" size="large" @click.prevent="join" class="btn">Join</n-button>
       </div>
     </div>
     <div v-else>
-      <div class="list-container">
-        <div v-for="message in messages" :key="message.id">
+      <n-space vertical class="list-container">
+        <p v-for="message in messages" :key="message.id">
           <strong> {{message.user}} </strong>
           <strong> : {{message.text}} </strong>
-        </div>
-      </div>
-      <div class="text-input-container">
-        <textarea
-          v-model="text"
+        </p>
+      </n-space>
+        <n-input type="textarea" size="small"
+        v-model:value="text"
           class="text-message"
-          @keyup.enter="sendMessage"
-        ></textarea>
-      </div>
+          @keyup="sendMessage"
+        round clearable></n-input>
     </div>
 </template>
 
 <script>
 import io from 'socket.io-client';
+import { AccountBoxTwotone } from '@vicons/material';
+// import { Icon } from '@vicons/utils';
 
 export default {
   name: 'EasyChatApp',
+  components: {
+    AccountBoxTwotone,
+    // Icon,
+  },
   data() {
     return {
       username: '',
@@ -46,9 +57,11 @@ export default {
         },
       );
     },
-    sendMessage() {
-      this.addMessage();
-      this.text = '';
+    sendMessage(e) {
+      if (e.keyCode === 13) {
+        this.addMessage();
+        this.text = '';
+      }
     },
     addMessage() {
       const message = {
@@ -64,6 +77,13 @@ export default {
 </script>
 
 <style scoped>
+.header {
+  color: #DFD8CA;
+  margin-bottom: 5px;
+  background-color: #B91646;
+  position: sticky;
+  width: 100%;
+}
 .parent-container {
   width: 100%;
   height: 100%;
@@ -77,28 +97,24 @@ export default {
   flex-direction: column;
   width: 200px;
 }
-.user-name {
-  height: 30px;
-  font-size: 20px;
-  padding: 5px;
-  margin-bottom: 5px;
-  text-align: center;
-  font-weight: bold;
+.btn {
+  margin-top: 12px;
 }
-.join-button {
-  height: 30px;
-  font-size: 20px;
+.list-container {
+  text-align: left;
+  margin: 0 5px;
 }
-.text-input-container {
-  height: 100vh;
-  display: flex;
+p {
+  margin: 0px;
+  color: #090910;
+  background: #EEEBDD;
 }
 .text-message {
-  position: absolute;
-  width: 95%;
-  bottom: 0px;
-  height: 70px;
-  padding: 10px;
+  position: fixed;
+  width: 98%;
+  height: 40px;
+  left: 5px;
+  bottom: 2px;
   box-sizing: border-box;
 }
 </style>
